@@ -1,0 +1,8 @@
+.DS_Store
+assets/.DS_Store
+repositories.*
+repositories
+node_modules
+/packages
+*.log
+dist
