@@ -2,7 +2,7 @@
   "name": "bc-cli",
   "version": "0.1.0",
   "description": "BigCommerce CLI",
-  "main": "index.js",
+  "main": "dist/index.js",
   "bin": {
     "bc-cli": "dist/index.js"
   },
