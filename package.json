@@ -18,6 +18,10 @@
     "json-colorizer": "^3.0.1",
     "yargs": "^17.7.2"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rezakalfane/bc-cli.git"
+  },
   "keywords": [
     "cli",
     "automation",
