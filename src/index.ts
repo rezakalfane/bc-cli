@@ -2,8 +2,10 @@
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers'
+import dotenv from 'dotenv'
 
-require('dotenv').config();
+dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV}` }); // loads the environment specific .env if any
 
 yargs(hideBin(process.argv))
     .scriptName("bc-cli")
