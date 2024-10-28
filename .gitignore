@@ -6,3 +6,5 @@ node_modules
 /packages
 *.log
 dist
+.env
+.env.*

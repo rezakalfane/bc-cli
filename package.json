@@ -15,6 +15,7 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "cli-table3": "^0.6.5",
+    "dotenv": "^16.4.5",
     "json-colorizer": "^3.0.1",
     "yargs": "^17.7.2"
   },

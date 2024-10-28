@@ -3,6 +3,8 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers'
 
+require('dotenv').config();
+
 yargs(hideBin(process.argv))
     .scriptName("bc-cli")
     .strict()
@@ -17,11 +19,13 @@ yargs(hideBin(process.argv))
     .option("storeHash", {
         type: "string",
         describe: "Store Hash",
+        default: process.env.STORE_HASH || ""
     })
     .option("accessToken", {
         type: "string",
         describe: "accessToken",
+        default: process.env.ACCESS_TOKEN || ""
     })
-    .demandOption(['storeHash', 'accessToken'], 'Please provide both store hash and access token arguments')
+    // .demandOption(['storeHash', 'accessToken'], 'Please provide both store hash and access token arguments')
     .help()
     .parse();
