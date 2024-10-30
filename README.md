@@ -8,11 +8,11 @@
 
 For now it's only requesting data through the Catalog REST API for the following entities:
 
-- Category Trees (get, get-all, export)
-- Categories (get-all, export)
+- Category Trees (get, get-all, export as JSON files)
+- Categories (get-all, export as JSON files)
 - Brands (get-all)
-- Products (get, get-all, export)
-- Variants (for a single product, get-all, export)
+- Products (get, get-all, export as JSON files)
+- Variants (for a single product, get-all, export as JSON files)
 
 The tool can display or save data as table (default), CSV or JSON.
 
