@@ -71,7 +71,7 @@ Commands:
 ```
       --query         Add query parameters                 [array] [default: []]
       --extra-fields  Retrieve additional fields           [array] [default: []]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
@@ -98,7 +98,7 @@ Commands:
       --follow-id     Get entities name from id                        [boolean]
       --query         Add query parameters                 [array] [default: []]
       --extra-fields  Retrieve additional fields           [array] [default: []]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
@@ -117,7 +117,7 @@ Commands:
 #### get-all options
 
 ```
-      --file         Output as file                                [string]
+      --file         Output as file                                    [string]
       --json         Output as JSON                                    [boolean]
       --csv          Output as CSV                                     [boolean]
 ```
@@ -127,7 +127,7 @@ Commands:
 ```
       --extra-fields  Retrieve additional fields           [array] [default: []]
       --top-level     Get only Top Level Categories                    [boolean]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --flatten       Flatten JSON structure                           [boolean]
       --no_parent_id  Remove Parent ID from JSON entries               [boolean]
@@ -158,7 +158,7 @@ Commands:
       --follow-id     Get entities name from id                        [boolean]
       --query         Add query parameters                 [array] [default: []]
       --extra-fields  Retrieve additional fields           [array] [default: []]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
@@ -168,7 +168,7 @@ Commands:
 ```
       --follow-id     Get entities name from id                        [boolean]
       --extra-fields  Retrieve additional fields           [array] [default: []]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
@@ -194,7 +194,7 @@ Commands:
 ```
       --query         Add query parameters                 [array] [default: []]
       --extra-fields  Retrieve additional fields           [array] [default: []]
-      --file          Output as file                               [string]
+      --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
