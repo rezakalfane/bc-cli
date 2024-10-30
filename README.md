@@ -2,6 +2,8 @@
 
 `bc-cli` is a Node.js CLI based on Yargs to interact with BigCommerce API. 
 
+![BigCommerce CLI](./docs/bc-cli-table.png)
+
 ## Features
 
 For now it's only requesting data through the Catalog REST API for the following entities:
