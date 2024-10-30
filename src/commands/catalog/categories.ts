@@ -1,7 +1,7 @@
 import { Argv } from "yargs"
 
 export const command = 'categories'
-export const describe = 'Category commands'
+export const describe = 'Categories commands'
 export const builder = function (yargs: Argv) {
     return yargs
         .commandDir('categories', {

@@ -21,13 +21,13 @@ yargs(hideBin(process.argv))
     .option("storeHash", {
         type: "string",
         describe: "Store Hash",
-        default: process.env.STORE_HASH || ""
+        default: process.env.STORE_HASH
     })
     .option("accessToken", {
         type: "string",
         describe: "accessToken",
-        default: process.env.ACCESS_TOKEN || ""
+        default: process.env.ACCESS_TOKEN
     })
-    // .demandOption(['storeHash', 'accessToken'], 'Please provide both store hash and access token arguments')
+    .demandOption(['storeHash', 'accessToken'], 'Please provide both store hash and access token arguments')
     .help()
     .parse();
