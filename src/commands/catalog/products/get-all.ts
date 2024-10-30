@@ -25,7 +25,7 @@ export const builder = function (yargs: Argv) {
         })
         .option("file", {
             type: "string",
-            describe: "Output as JSON file",
+            describe: "Output as file",
         })
         .option("json", {
             type: "boolean",
