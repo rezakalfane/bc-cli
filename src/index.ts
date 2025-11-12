@@ -8,10 +8,10 @@ import { getDefaultEnvironment } from './common/config-manager'
 dotenv.config();
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` }); // loads the environment specific .env if any
 
-// Load default environment from config if not provided via env vars
+// Load default environment from config (takes priority over .env file)
 const defaultEnv = getDefaultEnvironment();
-const storeHash = process.env.STORE_HASH || defaultEnv?.storeHash;
-const accessToken = process.env.ACCESS_TOKEN || defaultEnv?.accessToken;
+const storeHash = defaultEnv?.storeHash || process.env.STORE_HASH;
+const accessToken = defaultEnv?.accessToken || process.env.ACCESS_TOKEN;
 
 // Check if command is an env command (doesn't require credentials)
 const args = hideBin(process.argv);
