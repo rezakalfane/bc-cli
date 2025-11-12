@@ -6,6 +6,12 @@
 
 ## Features
 
+### Environment Management
+- Store and manage multiple BigCommerce store credentials
+- Switch between different environments (production, staging, etc.)
+- Credentials stored securely in `~/.bc-cli/config.json`
+
+### Catalog API
 For now it's only requesting data through the Catalog REST API for the following entities:
 
 - Category Trees (get, get-all, export as JSON files)
@@ -17,6 +23,34 @@ For now it's only requesting data through the Catalog REST API for the following
 The tool can display or save data as table (default), CSV or JSON.
 
 ## Usage
+
+### Configuration
+
+The CLI requires a BigCommerce store hash and access token to authenticate API requests. You can provide these credentials in three ways (listed in order of priority):
+
+1. **CLI options**: Pass `--storeHash` and `--accessToken` directly
+2. **Config file**: Store credentials using environment management commands (recommended)
+3. **.env file**: Set `STORE_HASH` and `ACCESS_TOKEN` in a `.env` file
+
+#### Environment Management (Recommended)
+
+Manage multiple store credentials using the `env` commands:
+
+```bash
+# Add a new environment
+bc-cli env add production <storeHash> <accessToken>
+
+# List all environments (default environment is highlighted)
+bc-cli env list
+
+# Switch to a different environment
+bc-cli env use staging
+
+# Remove an environment
+bc-cli env remove production
+```
+
+Credentials are stored in `~/.bc-cli/config.json` in your home directory.
 
 ### Sample commands
 
@@ -36,6 +70,7 @@ bc-cli catalog products get-all --query name:like=Dress --follow-id
 Usage: bc-cli <command> [options]
 
 Commands:
+  bc-cli env      Environments: Manage BigCommerce store environments
   bc-cli catalog  Catalog commands
 
 Options:
@@ -44,6 +79,20 @@ Options:
   -v, --version      Show version number                               [boolean]
   -h, --help         Show help                                         [boolean]
 ```
+
+### Environment commands
+
+```
+Environments: Manage BigCommerce store environments
+
+Commands:
+  bc-cli env add <environmentName> <storeHash> <accessToken>  Add a new environment configuration
+  bc-cli env list                                             List all configured environments
+  bc-cli env remove <environmentName>                         Remove an environment configuration
+  bc-cli env use <environmentName>                            Set the default environment
+```
+
+**Note**: The `env` commands do not require `--storeHash` and `--accessToken` options.
 
 ### Catalog commands
 
