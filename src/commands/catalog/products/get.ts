@@ -1,7 +1,7 @@
 import { BCClient, BCClientCredentials } from "../../../bigcommerce/bc-client"
 import { Argv } from "yargs"
 import { writeFileSync } from 'fs'
-import { generateCsv } from '../../../common/utils'
+import { generateCsv, generateTsv } from '../../../common/utils'
 import { colorize } from 'json-colorizer'
 import Table from 'cli-table3'
 const chalk = require("chalk")
@@ -34,6 +34,10 @@ export const builder = function (yargs: Argv) {
         .option("csv", {
             type: "boolean",
             describe: "Output as CSV"
+        })
+        .option("tsv", {
+            type: "boolean",
+            describe: "Output as TSV"
         })
 }
 
@@ -82,6 +86,8 @@ export const handler = async function (argv: any) {
         argv["extra-fields"].forEach((field: string) => value.push(result[field]))
         if (argv.csv) {
             finalOutput = generateCsv(header, [value])
+        } else if (argv.tsv) {
+            finalOutput = generateTsv(header, [value])
         } else {
             // const tableConfig: any = { head: header }
             const tableConfig: any = {
