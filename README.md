@@ -20,7 +20,7 @@ For now it's only requesting data through the Catalog REST API for the following
 - Products (get, get-all, export as JSON files)
 - Variants (for a single product, get-all, export as JSON files)
 
-The tool can display or save data as table (default), CSV or JSON.
+The tool can display or save data as table (default), CSV, TSV or JSON.
 
 ## Usage
 
@@ -123,6 +123,7 @@ Commands:
       --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
 
 ### Categories commands
