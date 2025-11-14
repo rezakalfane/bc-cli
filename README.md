@@ -182,6 +182,7 @@ Commands:
       --flatten       Flatten JSON structure                           [boolean]
       --no_parent_id  Remove Parent ID from JSON entries               [boolean]
       --csv           Output as CSV                                    [boolean]
+      --ascii         Output as ASCII tree format                      [boolean]
 ```
 
 ### Products commands
