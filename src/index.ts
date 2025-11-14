@@ -30,13 +30,11 @@ yargs(args)
     .demandCommand(1, "Please specify at least one command")
     .option("storeHash", {
         type: "string",
-        describe: "Store Hash",
-        default: storeHash
+        describe: "Store Hash"
     })
     .option("accessToken", {
         type: "string",
-        describe: "accessToken",
-        default: accessToken
+        describe: "accessToken"
     })
     .check((argv) => {
         // Skip credential validation for env commands
