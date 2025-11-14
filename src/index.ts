@@ -31,12 +31,14 @@ yargs(args)
     .option("storeHash", {
         type: "string",
         describe: "Store Hash",
-        default: storeHash
+        default: storeHash,
+        defaultDescription: 'from config file'
     })
     .option("accessToken", {
         type: "string",
         describe: "accessToken",
-        default: accessToken
+        default: accessToken,
+        defaultDescription: 'from config file'
     })
     .check((argv) => {
         // Skip credential validation for env commands
