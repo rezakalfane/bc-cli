@@ -5,6 +5,34 @@ import { Argv } from "yargs"
 import { colorize } from 'json-colorizer'
 import Table from 'cli-table3'
 
+/**
+ * Generates an ASCII tree representation of the category hierarchy
+ * @param items - Array of category items to display
+ * @param prefix - Current line prefix for indentation
+ * @param isLast - Whether this is the last item at this level
+ * @returns ASCII tree string
+ */
+function generateAsciiTree(items: any[], prefix: string = '', isLast: boolean = true): string {
+    let output = ''
+
+    items.forEach((item, index) => {
+        const isLastItem = index === items.length - 1
+        const connector = isLastItem ? '└── ' : '├── '
+        const linePrefix = prefix + connector
+
+        // Display the category name with ID
+        output += linePrefix + `${item.name} (id: ${item.id})\n`
+
+        // Process children if they exist
+        if (item.children && item.children.length > 0) {
+            const childPrefix = prefix + (isLastItem ? '    ' : '│   ')
+            output += generateAsciiTree(item.children, childPrefix, isLastItem)
+        }
+    })
+
+    return output
+}
+
 export const command = 'get <tree-id>'
 export const describe = 'Get a Category Tree'
 export const builder = function (yargs: Argv) {
@@ -45,6 +73,10 @@ export const builder = function (yargs: Argv) {
         .option("tsv", {
             type: "boolean",
             describe: "Output as TSV"
+        })
+        .option("ascii", {
+            type: "boolean",
+            describe: "Output as ASCII tree format"
         })
 }
 
@@ -106,6 +138,9 @@ export const handler = async function (argv: any) {
             finalOutput = generateCsv(header, values)
         } else if (argv.tsv) {
             finalOutput = generateTsv(header, values)
+        } else if (argv.ascii) {
+            // For ASCII tree, use the original hierarchical structure
+            finalOutput = generateAsciiTree(result)
         } else {
             const tableConfig: any = { head: header }
             if (argv.file) {
