@@ -305,6 +305,7 @@ export class BCClient {
         }
 
         const result = await response.json();
-        return result.data
+        // BigCommerce API may return data in result.data or directly in result
+        return result.data || result || []
     }
 }

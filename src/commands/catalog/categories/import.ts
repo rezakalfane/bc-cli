@@ -123,7 +123,8 @@ export const handler = async function (argv: any) {
         if (categoriesToUpdate.length > 0) {
             try {
                 const updatedCategories = await bcClient.updateCategories(categoriesToUpdate)
-                updatedCount = updatedCategories.length
+                // Use the response length if available, otherwise use the request count
+                updatedCount = (updatedCategories && updatedCategories.length) || categoriesToUpdate.length
                 console.log(chalk.green(`✓ Successfully updated ${updatedCount} categories with parent relationships`))
             } catch (error: any) {
                 console.error(chalk.red(`✗ Failed to update categories: ${error.message}`))
