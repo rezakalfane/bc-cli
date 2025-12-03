@@ -15,7 +15,7 @@
 For now it's only requesting data through the Catalog REST API for the following entities:
 
 - Category Trees (get, get-all, export as JSON files)
-- Categories (get-all, export as JSON files)
+- Categories (get-all, export as JSON files, import from CSV)
 - Brands (get-all)
 - Products (get, get-all, export as JSON files)
 - Variants (for a single product, get-all, export as JSON files)
@@ -60,6 +60,7 @@ bc-cli catalog category-trees get-all --csv
 bc-cli catalog category-trees get-all --json
 bc-cli catalog categories get-all --extra-fields sort_order --query tree_id:in=3 name:like=Sneakers
 bc-cli catalog categories get-all --extra-fields sort_order --query tree_id:in=3 name:like=Dress
+bc-cli catalog categories import categories.csv
 bc-cli catalog products get-all --query brand_id:in=40
 bc-cli catalog products get-all --query name:like=Dress --follow-id
 ```
@@ -132,8 +133,9 @@ Commands:
 Categories commands
 
 Commands:
-  bc-cli catalog categories export  <folder>  Export all Categories
-  bc-cli catalog categories get-all           Get all Categories
+  bc-cli catalog categories export <folder>  Export all Categories
+  bc-cli catalog categories get-all          Get all Categories
+  bc-cli catalog categories import <file>    Import categories from CSV file
 ```
 
 #### export options
@@ -152,6 +154,23 @@ Commands:
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
 ```
+
+#### import options
+
+The import command accepts a CSV file with the following format:
+
+```csv
+"category_id","parent_id","tree_id","name","is_visible","url"
+"136","0","19","Mens","true","/mens/"
+"137","0","19","Womens","true","/womens/"
+"138","0","19","Kids","true","/kids/"
+```
+
+The import process happens in two steps:
+1. **Step 1**: Creates all categories without parent relationships
+2. **Step 2**: Updates categories with correct parent_id based on CSV data, matching by URL path
+
+**Note**: The category_id and parent_id values in the CSV are used only to establish relationships during import. BigCommerce will assign new category IDs to the created categories.
 
 ### Category Trees commands
 
