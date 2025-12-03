@@ -69,7 +69,8 @@ export const handler = async function (argv: any) {
             const originalRow = csvData[index]
             pathToCategoryMap.set(originalRow.url, {
                 category_id: category.category_id,
-                original_parent_id: originalRow.parent_id
+                original_parent_id: originalRow.parent_id,
+                createdCategory: category
             })
         })
 
@@ -79,8 +80,8 @@ export const handler = async function (argv: any) {
             csvIdToPathMap.set(row.category_id, row.url)
         })
 
-        // Update categories with parent relationships
-        let updatedCount = 0
+        // Prepare bulk update array
+        const categoriesToUpdate: any[] = []
         let skippedCount = 0
 
         for (const [path, categoryInfo] of pathToCategoryMap) {
@@ -110,16 +111,25 @@ export const handler = async function (argv: any) {
                 continue
             }
 
-            // Update the category with parent_id
+            // Add to bulk update array
+            categoriesToUpdate.push({
+                ...categoryInfo.createdCategory,
+                parent_id: parentInfo.category_id
+            })
+        }
+
+        // Perform bulk update if there are categories to update
+        let updatedCount = 0
+        if (categoriesToUpdate.length > 0) {
             try {
-                await bcClient.updateCategory(categoryInfo.category_id, {
-                    parent_id: parentInfo.category_id
-                })
-                updatedCount++
-                console.log(chalk.gray(`  ✓ Updated category ${categoryInfo.category_id} with parent ${parentInfo.category_id}`))
+                const updatedCategories = await bcClient.updateCategories(categoriesToUpdate)
+                updatedCount = updatedCategories.length
+                console.log(chalk.green(`✓ Successfully updated ${updatedCount} categories with parent relationships`))
             } catch (error: any) {
-                console.error(chalk.red(`  ✗ Failed to update category ${categoryInfo.category_id}: ${error.message}`))
+                console.error(chalk.red(`✗ Failed to update categories: ${error.message}`))
             }
+        } else {
+            console.log(chalk.yellow('No categories require parent relationship updates'))
         }
 
         console.log(chalk.green(`\n✓ Import complete!`))
