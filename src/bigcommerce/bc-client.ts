@@ -253,4 +253,59 @@ export class BCClient {
         }
         return result.data
     }
+
+    /**
+     * Create categories in bulk
+     * @param categories Array of category objects to create
+     * @returns Array of created categories
+     */
+    async createCategories(categories: any[]): Promise<any[]> {
+        const url = `https://api.bigcommerce.com/stores/${this.storeHash}/v3/catalog/trees/categories`
+        const response = await fetch(url, {
+            method: HttpMethod.POST,
+            headers: {
+                "X-Auth-Token": this.accessToken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(categories)
+        })
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+                `Failed to create categories with status code ${response.status}: ${errorText}`,
+            );
+        }
+
+        const result = await response.json();
+        return result.data
+    }
+
+    /**
+     * Update a category
+     * @param category_id Category ID to update
+     * @param categoryData Category data to update
+     * @returns Updated category
+     */
+    async updateCategory(category_id: number, categoryData: any): Promise<any> {
+        const url = `https://api.bigcommerce.com/stores/${this.storeHash}/v3/catalog/trees/categories/${category_id}`
+        const response = await fetch(url, {
+            method: HttpMethod.PATCH,
+            headers: {
+                "X-Auth-Token": this.accessToken,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(categoryData)
+        })
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+                `Failed to update category ${category_id} with status code ${response.status}: ${errorText}`,
+            );
+        }
+
+        const result = await response.json();
+        return result.data
+    }
 }
