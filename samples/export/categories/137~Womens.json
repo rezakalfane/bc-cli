@@ -1,0 +1,22 @@
+{
+    "category_id": 137,
+    "category_uuid": "522cf387-abd1-4469-8bf3-cd73e48d13f7",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "Womens",
+    "description": "",
+    "views": 0,
+    "sort_order": 1,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/womens/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

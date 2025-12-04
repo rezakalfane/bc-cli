@@ -1,0 +1,22 @@
+{
+    "category_id": 138,
+    "category_uuid": "26ce265e-8ec0-43d4-a52b-ad1e030da5e2",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "Kids",
+    "description": "",
+    "views": 0,
+    "sort_order": 2,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/kids/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

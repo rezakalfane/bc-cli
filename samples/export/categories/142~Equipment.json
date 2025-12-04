@@ -1,0 +1,22 @@
+{
+    "category_id": 142,
+    "category_uuid": "2aa70a3c-8cd0-4c7d-bb3f-906e7664e60d",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "Equipment",
+    "description": "",
+    "views": 0,
+    "sort_order": 3,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/equipment/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

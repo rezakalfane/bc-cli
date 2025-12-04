@@ -1,0 +1,22 @@
+{
+    "category_id": 139,
+    "category_uuid": "122ce099-9b1c-4e3c-8698-314b4c5d14d6",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "New",
+    "description": "",
+    "views": 0,
+    "sort_order": 4,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/new/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

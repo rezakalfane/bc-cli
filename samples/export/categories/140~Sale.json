@@ -1,0 +1,22 @@
+{
+    "category_id": 140,
+    "category_uuid": "a30923f3-2098-445c-8688-bdaad9d86725",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "Sale",
+    "description": "",
+    "views": 0,
+    "sort_order": 5,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/sale/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

@@ -1,0 +1,22 @@
+{
+    "category_id": 136,
+    "category_uuid": "1b7093f1-278f-43d6-8061-b3506a66a823",
+    "parent_id": 0,
+    "tree_id": 19,
+    "name": "Mens",
+    "description": "",
+    "views": 0,
+    "sort_order": 0,
+    "page_title": "",
+    "search_keywords": "",
+    "meta_keywords": [],
+    "meta_description": "",
+    "layout_file": "",
+    "is_visible": true,
+    "default_product_sort": "use_store_settings",
+    "url": {
+        "path": "/mens/",
+        "is_customized": false
+    },
+    "image_url": ""
+}

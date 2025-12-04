@@ -1,0 +1,36 @@
+{
+    "id": 109,
+    "product_id": 142,
+    "sku": "Ridge-Perf-M",
+    "sku_id": 128,
+    "price": null,
+    "calculated_price": 89,
+    "sale_price": null,
+    "retail_price": null,
+    "map_price": null,
+    "fixed_cost_shipping_price": null,
+    "cost_price": null,
+    "weight": null,
+    "width": null,
+    "height": null,
+    "depth": null,
+    "is_free_shipping": false,
+    "calculated_weight": 12,
+    "purchasing_disabled": false,
+    "purchasing_disabled_message": "",
+    "image_url": "",
+    "upc": "",
+    "mpn": "",
+    "gtin": "",
+    "inventory_level": 0,
+    "inventory_warning_level": 0,
+    "bin_picking_number": "",
+    "option_values": [
+        {
+            "id": 99,
+            "label": "Medium",
+            "option_id": 113,
+            "option_display_name": "Size"
+        }
+    ]
+}
