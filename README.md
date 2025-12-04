@@ -22,6 +22,13 @@ You can request and also import data through the Catalog REST API for the follow
 
 The tool can display or save data as table (default), CSV, TSV or JSON.
 
+### Admin API
+You can request data through the Admin REST API for the following entities:
+
+- Channels (get-all)
+
+The tool can display or save data as table (default), CSV, TSV or JSON.
+
 ## Usage
 
 ### Configuration
@@ -63,6 +70,9 @@ bc-cli catalog categories get-all --extra-fields sort_order --query tree_id:in=3
 bc-cli catalog categories import ./categories.csv
 bc-cli catalog products get-all --query brand_id:in=40
 bc-cli catalog products get-all --query name:like=Dress --follow-id
+bc-cli admin channels get-all
+bc-cli admin channels get-all --json
+bc-cli admin channels get-all --csv --file channels.csv
 ```
 
 ### General options
@@ -73,6 +83,7 @@ Usage: bc-cli <command> [options]
 Commands:
   bc-cli env      Environments: Manage BigCommerce store environments
   bc-cli catalog  Catalog commands
+  bc-cli admin    Admin commands
 
 Options:
       --storeHash    Store Hash                 [string] [default: "XXX"]
@@ -273,4 +284,54 @@ Commands:
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
       --tsv           Output as TSV                                    [boolean]
+```
+
+## Admin commands
+
+### Channels commands
+
+```
+Channels commands
+
+Commands:
+  bc-cli admin channels get-all  Get all Channels
+```
+
+#### get-all options
+
+The `get-all` command retrieves all channels from your BigCommerce store. Channels represent different sales channels like storefronts, marketplaces (Amazon, Facebook), point of sale, etc.
+
+```
+      --query         Add query parameters                 [array] [default: []]
+      --extra-fields  Retrieve additional fields           [array] [default: []]
+      --file          Output as file                                   [string]
+      --json          Output as JSON                                   [boolean]
+      --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
+```
+
+**Default displayed fields:**
+- `id` - Channel ID
+- `name` - Channel name
+- `status` - Channel status (connected, prelaunch, etc.)
+- `type` - Channel type (storefront, marketplace, etc.)
+- `platform` - Platform name (bigcommerce, amazon, facebook, etc.)
+- `date_created` - When the channel was created
+- `is_listable_from_ui` - Whether the channel is listable from the UI
+- `is_visible` - Whether the channel is visible
+
+**Examples:**
+
+```bash
+# Display all channels as a table
+bc-cli admin channels get-all
+
+# Output as JSON
+bc-cli admin channels get-all --json
+
+# Export to CSV file
+bc-cli admin channels get-all --csv --file channels.csv
+
+# Include additional fields
+bc-cli admin channels get-all --extra-fields icon_url external_id
 ```

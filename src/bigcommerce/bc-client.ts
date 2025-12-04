@@ -308,4 +308,42 @@ export class BCClient {
         // BigCommerce API may return data in result.data or directly in result
         return result.data || result || []
     }
+
+    /**
+     * Get all Channels in a BigCommerce store
+     * @param page Pagination page
+     * @param query Query parameters
+     * @returns Array of Channels
+     */
+    async getAllChannels(page = 1, query: string[] = []): Promise<any[]> {
+        let url = `https://api.bigcommerce.com/stores/${this.storeHash}/v3/channels?page=${page}`
+        if (query.length) {
+            url += "&"
+            url += query.join("&")
+        }
+        const response = await fetch(url, {
+            method: HttpMethod.GET,
+            headers: {
+                "X-Auth-Token": this.accessToken,
+                "Content-Type": "application/json"
+            }
+        })
+
+        if (!response.ok) {
+            throw new Error(
+                `Failed to get Channels with status code ${response.status}`,
+            );
+        }
+
+        const result = await response.json();
+
+        // Go through all pages
+        if (result.meta.pagination.total_pages > result.meta.pagination.current_page) {
+            return [
+                ...result.data,
+                ...await(this.getAllChannels(result.meta.pagination.current_page + 1, query))
+            ]
+        }
+        return result.data
+    }
 }
