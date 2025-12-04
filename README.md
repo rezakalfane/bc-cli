@@ -12,7 +12,7 @@
 - Credentials stored securely in `~/.bc-cli/config.json`
 
 ### Catalog API
-For now it's only requesting data through the Catalog REST API for the following entities:
+You can request and also import data through the Catalog REST API for the following entities:
 
 - Category Trees (get, get-all, export as JSON files)
 - Categories (get-all, export as JSON files, import from CSV)
