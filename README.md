@@ -60,7 +60,7 @@ bc-cli catalog category-trees get-all --csv
 bc-cli catalog category-trees get-all --json
 bc-cli catalog categories get-all --extra-fields sort_order --query tree_id:in=3 name:like=Sneakers
 bc-cli catalog categories get-all --extra-fields sort_order --query tree_id:in=3 name:like=Dress
-bc-cli catalog categories import categories.csv
+bc-cli catalog categories import ./categories.csv
 bc-cli catalog products get-all --query brand_id:in=40
 bc-cli catalog products get-all --query name:like=Dress --follow-id
 ```
