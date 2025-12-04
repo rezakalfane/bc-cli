@@ -153,6 +153,7 @@ Commands:
       --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
 
 #### import options
@@ -189,6 +190,7 @@ Commands:
       --file         Output as file                                    [string]
       --json         Output as JSON                                    [boolean]
       --csv          Output as CSV                                     [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
 
 #### get options
@@ -201,6 +203,7 @@ Commands:
       --flatten       Flatten JSON structure                           [boolean]
       --no_parent_id  Remove Parent ID from JSON entries               [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
       --ascii         Output as ASCII tree format                      [boolean]
 ```
 
@@ -231,6 +234,7 @@ Commands:
       --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
 
 #### get options
@@ -241,6 +245,7 @@ Commands:
       --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
 
 ### Variants commands (for a single product)
@@ -267,4 +272,5 @@ Commands:
       --file          Output as file                                   [string]
       --json          Output as JSON                                   [boolean]
       --csv           Output as CSV                                    [boolean]
+      --tsv           Output as TSV                                    [boolean]
 ```
