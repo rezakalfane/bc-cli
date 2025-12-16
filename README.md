@@ -172,15 +172,24 @@ Commands:
 The import command accepts a CSV file with the following format:
 
 ```csv
-"category_id","parent_id","tree_id","name","is_visible","url"
-"136","0","19","Mens","true","/mens/"
-"137","0","19","Womens","true","/womens/"
-"138","0","19","Kids","true","/kids/"
+"category_id","parent_id","tree_id","name","is_visible","url","sort_order"
+"136","0","19","Mens","true","/mens/","0"
+"137","0","19","Womens","true","/womens/","1"
+"138","0","19","Kids","true","/kids/","2"
 ```
 
 The import process happens in two steps:
 1. **Step 1**: Creates all categories without parent relationships
 2. **Step 2**: Updates categories with correct parent_id based on CSV data, matching by URL path
+
+**CSV Fields:**
+- `category_id` - Temporary ID used only for establishing relationships during import
+- `parent_id` - Reference to parent category_id (use "0" for top-level categories)
+- `tree_id` - The category tree ID where categories will be created
+- `name` - Category name
+- `is_visible` - Whether the category is visible ("true" or "false")
+- `url` - Category URL path (must be unique)
+- `sort_order` - Display order of the category (0, 1, 2, etc.)
 
 **Note**: The category_id and parent_id values in the CSV are used only to establish relationships during import. BigCommerce will assign new category IDs to the created categories.
 

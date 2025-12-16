@@ -46,7 +46,8 @@ export const handler = async function (argv: any) {
                 url: {
                     path: row.url,
                     is_customized: false
-                }
+                },
+                sort_order: parseInt(row.sort_order)
             }
             return category
         })
