@@ -50,7 +50,9 @@ export const generateTsv = (header: string[], values: string[][]) => {
  * @returns Array of objects with CSV data
  */
 export const parseCsv = (csvContent: string): any[] => {
-    const lines = csvContent.trim().split('\n');
+    // Handle both LF and CRLF line endings by replacing \r\n with \n, then splitting on \n
+    const normalizedContent = csvContent.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+    const lines = normalizedContent.trim().split('\n');
     if (lines.length === 0) {
         return [];
     }
