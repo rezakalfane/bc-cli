@@ -12,6 +12,11 @@ export const builder = function (yargs: Argv) {
             type: "string",
             describe: "Input CSV file path"
         })
+        .option("skip-categories", {
+            type: "boolean",
+            describe: "Skip category creation and only update parent relationships",
+            default: false
+        })
         .demandOption(["file"], "Please provide input CSV file path")
 }
 
@@ -35,30 +40,43 @@ export const handler = async function (argv: any) {
 
         console.log(chalk.blue(`Found ${csvData.length} categories to import`))
 
-        // Step 1: Create all categories without parent_id
-        console.log(chalk.blue('\nStep 1: Creating categories without parent relationships...'))
-
-        const categoriesToCreate = csvData.map(row => {
-            const category: any = {
-                name: row.name,
-                tree_id: parseInt(row.tree_id),
-                is_visible: row.is_visible.toLowerCase() === 'true',
-                url: {
-                    path: row.url,
-                    is_customized: false
-                },
-                sort_order: parseInt(row.sort_order)
-            }
-            return category
-        })
-
         let createdCategories: any[] = []
-        try {
-            createdCategories = await bcClient.createCategories(categoriesToCreate)
-            console.log(chalk.green(`✓ Successfully created ${createdCategories.length} categories`))
-        } catch (error: any) {
-            console.error(chalk.red(`✗ Failed to create categories: ${error.message}`))
-            throw error
+
+        if (argv.skipCategories) {
+            // Skip category creation and fetch existing categories
+            console.log(chalk.blue('\nSkipping category creation, fetching existing categories...'))
+            try {
+                createdCategories = await bcClient.getAllCategories()
+                console.log(chalk.green(`✓ Found ${createdCategories.length} existing categories`))
+            } catch (error: any) {
+                console.error(chalk.red(`✗ Failed to fetch existing categories: ${error.message}`))
+                throw error
+            }
+        } else {
+            // Step 1: Create all categories without parent_id
+            console.log(chalk.blue('\nStep 1: Creating categories without parent relationships...'))
+
+            const categoriesToCreate = csvData.map(row => {
+                const category: any = {
+                    name: row.name,
+                    tree_id: parseInt(row.tree_id),
+                    is_visible: row.is_visible.toLowerCase() === 'true',
+                    url: {
+                        path: row.url,
+                        is_customized: false
+                    },
+                    sort_order: parseInt(row.sort_order)
+                }
+                return category
+            })
+
+            try {
+                createdCategories = await bcClient.createCategories(categoriesToCreate)
+                console.log(chalk.green(`✓ Successfully created ${createdCategories.length} categories`))
+            } catch (error: any) {
+                console.error(chalk.red(`✗ Failed to create categories: ${error.message}`))
+                throw error
+            }
         }
 
         // Step 2: Update categories with parent_id relationships
@@ -66,14 +84,30 @@ export const handler = async function (argv: any) {
 
         // Create a mapping of original CSV data to created categories
         const pathToCategoryMap = new Map()
-        createdCategories.forEach((category, index) => {
-            const originalRow = csvData[index]
-            pathToCategoryMap.set(originalRow.url, {
-                category_id: category.category_id,
-                original_parent_id: originalRow.parent_id,
-                createdCategory: category
+
+        if (argv.skipCategories) {
+            // When skipping creation, match existing categories by URL path
+            createdCategories.forEach(category => {
+                const matchingRow = csvData.find(row => row.url === category.url.path)
+                if (matchingRow) {
+                    pathToCategoryMap.set(category.url.path, {
+                        category_id: category.category_id,
+                        original_parent_id: matchingRow.parent_id,
+                        createdCategory: category
+                    })
+                }
             })
-        })
+        } else {
+            // When creating categories, map by index
+            createdCategories.forEach((category, index) => {
+                const originalRow = csvData[index]
+                pathToCategoryMap.set(originalRow.url, {
+                    category_id: category.category_id,
+                    original_parent_id: originalRow.parent_id,
+                    createdCategory: category
+                })
+            })
+        }
 
         // Build a map of CSV parent_id to BigCommerce category_id
         const csvIdToPathMap = new Map()
@@ -135,7 +169,11 @@ export const handler = async function (argv: any) {
         }
 
         console.log(chalk.green(`\n✓ Import complete!`))
-        console.log(chalk.blue(`  Created: ${createdCategories.length} categories`))
+        if (argv.skipCategories) {
+            console.log(chalk.blue(`  Found: ${createdCategories.length} existing categories`))
+        } else {
+            console.log(chalk.blue(`  Created: ${createdCategories.length} categories`))
+        }
         console.log(chalk.blue(`  Updated: ${updatedCount} with parent relationships`))
         console.log(chalk.blue(`  Skipped: ${skippedCount} (top-level or missing parents)`))
 
