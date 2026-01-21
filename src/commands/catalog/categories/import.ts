@@ -4,6 +4,20 @@ import { readFileSync } from "fs";
 import { parseCsv } from "../../../common/utils";
 import chalk from "chalk";
 
+// Helper function to split array into chunks
+function chunkArray<T>(array: T[], chunkSize: number): T[][] {
+    const chunks: T[][] = []
+    for (let i = 0; i < array.length; i += chunkSize) {
+        chunks.push(array.slice(i, i + chunkSize))
+    }
+    return chunks
+}
+
+// Helper function to pause execution
+function sleep(ms: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 export const command = 'import <file>'
 export const describe = 'Import categories from CSV file'
 export const builder = function (yargs: Argv) {
@@ -53,8 +67,25 @@ export const handler = async function (argv: any) {
         })
 
         let createdCategories: any[] = []
+        const createBatches = chunkArray(categoriesToCreate, 50)
+        console.log(chalk.blue(`Processing ${createBatches.length} batch(es) of up to 50 categories each...`))
+
         try {
-            createdCategories = await bcClient.createCategories(categoriesToCreate)
+            for (let i = 0; i < createBatches.length; i++) {
+                const batch = createBatches[i]
+                console.log(chalk.blue(`  Creating batch ${i + 1}/${createBatches.length} (${batch.length} categories)...`))
+
+                const batchResult = await bcClient.createCategories(batch)
+                createdCategories.push(...batchResult)
+
+                console.log(chalk.green(`  ✓ Batch ${i + 1} created successfully`))
+
+                // Pause between batches (except after the last one)
+                if (i < createBatches.length - 1) {
+                    console.log(chalk.gray(`  Pausing 1 second before next batch...`))
+                    await sleep(1000)
+                }
+            }
             console.log(chalk.green(`✓ Successfully created ${createdCategories.length} categories`))
         } catch (error: any) {
             console.error(chalk.red(`✗ Failed to create categories: ${error.message}`))
@@ -122,10 +153,27 @@ export const handler = async function (argv: any) {
         // Perform bulk update if there are categories to update
         let updatedCount = 0
         if (categoriesToUpdate.length > 0) {
+            const updateBatches = chunkArray(categoriesToUpdate, 50)
+            console.log(chalk.blue(`Processing ${updateBatches.length} batch(es) of up to 50 categories each...`))
+
             try {
-                const updatedCategories = await bcClient.updateCategories(categoriesToUpdate)
-                // Use the response length if available, otherwise use the request count
-                updatedCount = (updatedCategories && updatedCategories.length) || categoriesToUpdate.length
+                for (let i = 0; i < updateBatches.length; i++) {
+                    const batch = updateBatches[i]
+                    console.log(chalk.blue(`  Updating batch ${i + 1}/${updateBatches.length} (${batch.length} categories)...`))
+
+                    const batchResult = await bcClient.updateCategories(batch)
+                    // Use the response length if available, otherwise use the request count
+                    const batchUpdatedCount = (batchResult && batchResult.length) || batch.length
+                    updatedCount += batchUpdatedCount
+
+                    console.log(chalk.green(`  ✓ Batch ${i + 1} updated successfully`))
+
+                    // Pause between batches (except after the last one)
+                    if (i < updateBatches.length - 1) {
+                        console.log(chalk.gray(`  Pausing 1 second before next batch...`))
+                        await sleep(1000)
+                    }
+                }
                 console.log(chalk.green(`✓ Successfully updated ${updatedCount} categories with parent relationships`))
             } catch (error: any) {
                 console.error(chalk.red(`✗ Failed to update categories: ${error.message}`))
