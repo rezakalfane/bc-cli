@@ -7,11 +7,18 @@ export interface Environment {
     accessToken: string;
 }
 
+export interface BatchConfig {
+    createBatchSize: number;
+    updateBatchSize: number;
+    continueOnError: boolean;
+}
+
 export interface Config {
     environments: {
         [key: string]: Environment;
     };
     defaultEnvironment?: string;
+    batch?: BatchConfig;
 }
 
 const CONFIG_DIR = path.join(os.homedir(), '.bc-cli');
@@ -134,4 +141,28 @@ export function getAllEnvironments(): { name: string; environment: Environment; 
 export function getEnvironment(name: string): Environment | null {
     const config = loadConfig();
     return config.environments[name] || null;
+}
+
+/**
+ * Gets the batch configuration with defaults
+ */
+export function getBatchConfig(): BatchConfig {
+    const config = loadConfig();
+    return config.batch || {
+        createBatchSize: 100,
+        updateBatchSize: 100,
+        continueOnError: false
+    };
+}
+
+/**
+ * Updates the batch configuration
+ */
+export function setBatchConfig(batchConfig: Partial<BatchConfig>): void {
+    const config = loadConfig();
+    config.batch = {
+        ...getBatchConfig(),
+        ...batchConfig
+    };
+    saveConfig(config);
 }

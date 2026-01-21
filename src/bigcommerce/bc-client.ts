@@ -1,3 +1,5 @@
+import { chunkArray } from "../common/utils";
+
 /**
  * HTTP Methods for REST API calls
  */
@@ -15,6 +17,17 @@ export enum HttpMethod {
 export interface BCClientCredentials {
     storeHash: string;
     accessToken: string;
+}
+
+/**
+ * Result of a batch operation
+ */
+export interface BatchOperationResult {
+    successful: any[];
+    failed: Array<{
+        items: any[];
+        error: string;
+    }>;
 }
 
 /**
@@ -257,9 +270,59 @@ export class BCClient {
     /**
      * Create categories in bulk
      * @param categories Array of category objects to create
+     * @param batchSize Size of each batch (default: send all at once)
+     * @param continueOnError Whether to continue processing batches if one fails
+     * @returns Array of created categories or BatchOperationResult if continueOnError is true
+     */
+    async createCategories(
+        categories: any[],
+        batchSize?: number,
+        continueOnError: boolean = false
+    ): Promise<any[] | BatchOperationResult> {
+        // If no batch size specified, send all at once (original behavior)
+        if (!batchSize || batchSize >= categories.length) {
+            return this.createCategoriesBatch(categories, continueOnError);
+        }
+
+        // Split into chunks
+        const chunks = chunkArray(categories, batchSize);
+        const successful: any[] = [];
+        const failed: Array<{ items: any[]; error: string }> = [];
+
+        for (let i = 0; i < chunks.length; i++) {
+            const chunk = chunks[i];
+            try {
+                const result = await this.createCategoriesBatch(chunk, false);
+                successful.push(...(result as any[]));
+            } catch (error: any) {
+                if (continueOnError) {
+                    failed.push({
+                        items: chunk,
+                        error: error.message
+                    });
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        if (continueOnError) {
+            return { successful, failed };
+        }
+
+        return successful;
+    }
+
+    /**
+     * Internal method to create a single batch of categories
+     * @param categories Array of category objects to create
+     * @param continueOnError Whether to continue on error
      * @returns Array of created categories
      */
-    async createCategories(categories: any[]): Promise<any[]> {
+    private async createCategoriesBatch(
+        categories: any[],
+        continueOnError: boolean
+    ): Promise<any[]> {
         const url = `https://api.bigcommerce.com/stores/${this.storeHash}/v3/catalog/trees/categories`
         const response = await fetch(url, {
             method: HttpMethod.POST,
@@ -284,9 +347,59 @@ export class BCClient {
     /**
      * Update categories in bulk
      * @param categories Array of category objects to update (must include category_id in each object)
+     * @param batchSize Size of each batch (default: send all at once)
+     * @param continueOnError Whether to continue processing batches if one fails
+     * @returns Array of updated categories or BatchOperationResult if continueOnError is true
+     */
+    async updateCategories(
+        categories: any[],
+        batchSize?: number,
+        continueOnError: boolean = false
+    ): Promise<any[] | BatchOperationResult> {
+        // If no batch size specified, send all at once (original behavior)
+        if (!batchSize || batchSize >= categories.length) {
+            return this.updateCategoriesBatch(categories, continueOnError);
+        }
+
+        // Split into chunks
+        const chunks = chunkArray(categories, batchSize);
+        const successful: any[] = [];
+        const failed: Array<{ items: any[]; error: string }> = [];
+
+        for (let i = 0; i < chunks.length; i++) {
+            const chunk = chunks[i];
+            try {
+                const result = await this.updateCategoriesBatch(chunk, false);
+                successful.push(...(result as any[]));
+            } catch (error: any) {
+                if (continueOnError) {
+                    failed.push({
+                        items: chunk,
+                        error: error.message
+                    });
+                } else {
+                    throw error;
+                }
+            }
+        }
+
+        if (continueOnError) {
+            return { successful, failed };
+        }
+
+        return successful;
+    }
+
+    /**
+     * Internal method to update a single batch of categories
+     * @param categories Array of category objects to update
+     * @param continueOnError Whether to continue on error
      * @returns Array of updated categories
      */
-    async updateCategories(categories: any[]): Promise<any[]> {
+    private async updateCategoriesBatch(
+        categories: any[],
+        continueOnError: boolean
+    ): Promise<any[]> {
         const url = `https://api.bigcommerce.com/stores/${this.storeHash}/v3/catalog/trees/categories`
         const response = await fetch(url, {
             method: HttpMethod.PUT,
